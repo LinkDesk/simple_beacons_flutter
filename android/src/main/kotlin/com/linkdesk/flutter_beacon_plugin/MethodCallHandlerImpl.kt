@@ -12,14 +12,16 @@ class MethodCallHandlerImpl(private val plugin: FlutterBeaconPlugin) : MethodCha
                 ?: return result.error("MISSING_ACTIVITY", "Plugin has not been attached to engine", null)
         when (call.method) {
             "checkPermission" -> result.success(PermissionUtil.hasPermission(activity.activity))
-            "requestPermission" -> requestPermission(activity, result)
+            "requestPermission" -> requestPermission(call, activity, result)
             else -> result.notImplemented()
         }
     }
 
-    private fun requestPermission(activity: ActivityPluginBinding, result: MethodChannel.Result) {
+    private fun requestPermission(call: MethodCall, activity: ActivityPluginBinding, result: MethodChannel.Result) {
+        val context = activity.activity
+        if (call.argument<Boolean>("force") == true && PermissionUtil.hasPermission(context)) return result.success(true)
         try {
-            PermissionUtil.requestPermission(activity.activity, PluginRegistry.RequestPermissionsResultListener { _, _, grantResults: IntArray ->
+            PermissionUtil.requestPermission(context, PluginRegistry.RequestPermissionsResultListener { _, _, grantResults: IntArray ->
                 result.success(grantResults.firstOrNull() == PackageManager.PERMISSION_GRANTED)
                 true
             })

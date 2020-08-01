@@ -1,0 +1,6 @@
+enum BluetoothState {
+  STATE_OFF,
+  STATE_TURNING_OFF,
+  STATE_ON,
+  STATE_TURNING_ON
+}
