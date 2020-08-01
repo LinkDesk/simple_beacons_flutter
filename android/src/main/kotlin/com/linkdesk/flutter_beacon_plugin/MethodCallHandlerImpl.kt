@@ -1,6 +1,7 @@
 package com.linkdesk.flutter_beacon_plugin
 
 import android.content.pm.PackageManager
+import com.linkdesk.flutter_beacon_plugin.utils.parseRegion
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -13,6 +14,18 @@ class MethodCallHandlerImpl(private val plugin: FlutterBeaconPlugin) : MethodCha
         when (call.method) {
             "checkPermission" -> result.success(PermissionUtil.hasPermission(activity.activity))
             "requestPermission" -> requestPermission(call, activity, result)
+            "startRanging" -> {
+                val regions = call.argument<List<Map<String, Any>>>("regions") ?: error("Missing regions")
+                plugin.registerRangeRegions(regions.map(::parseRegion))
+                plugin.restartRanging()
+                result.success(null)
+            }
+            "startMonitoring" -> {
+                val regions = call.argument<List<Map<String, Any>>>("regions") ?: error("Missing regions")
+                plugin.registerMonitorRegions(regions.map(::parseRegion))
+                plugin.restartMonitoring()
+                result.success(null)
+            }
             else -> result.notImplemented()
         }
     }

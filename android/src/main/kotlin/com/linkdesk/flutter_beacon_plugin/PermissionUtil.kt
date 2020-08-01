@@ -13,7 +13,7 @@ object PermissionUtil : PluginRegistry.RequestPermissionsResultListener {
 
     fun hasPermission(context: Context) = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
 
-    fun requestPermission(activity: Activity, listener: PluginRegistry.RequestPermissionsResultListener) = ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), FlutterBeaconPlugin.PERMISSION_REQUEST).also {
+    fun requestPermission(activity: Activity, listener: PluginRegistry.RequestPermissionsResultListener) = ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), FlutterBeaconPlugin.PERMISSION_REQUEST).also {
         listeners.add(DelegatedPermissionRequestResultListener(listener))
     }
 

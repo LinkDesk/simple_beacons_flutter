@@ -5,9 +5,14 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.util.Log
 import io.flutter.plugin.common.EventChannel
 
 class BluetoothStateBroadcaster constructor(private val context: Context): EventChannel.StreamHandler, BroadcastReceiver() {
+
+    init {
+        Log.i("DAS", "ATTACH")
+    }
     private var sink: EventChannel.EventSink? = null
 
     override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {

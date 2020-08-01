@@ -16,7 +16,7 @@ BluetoothState parseBluetoothState(String state) {
       result = BluetoothState.STATE_TURNING_ON;
       break;
     default:
-      throw ArgumentError('Received invalid bluetuuth state: $state');
+      throw ArgumentError('Received invalid bluetooth state: $state');
   }
 
   return result;
